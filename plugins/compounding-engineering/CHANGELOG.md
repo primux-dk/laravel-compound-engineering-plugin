@@ -5,6 +5,12 @@ All notable changes to the compounding-engineering plugin will be documented in 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.2] - 2024-11-24
+
+### Changed
+
+- `design-iterator` agent - Updated description to emphasize proactive usage when design work isn't coming together on first attempt. Added examples showing how to suggest 5x or 10x iterations when initial changes don't fully resolve design issues.
+
 ## [2.0.1] - 2024-11-24
 
 ### Added

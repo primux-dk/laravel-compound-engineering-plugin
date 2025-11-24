@@ -1,6 +1,6 @@
 {
   "name": "compounding-engineering",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "AI-powered development tools. 24 agents (organized by category: review, research, design, workflow, docs), 15 commands, 11 skills for code review, research, design, and workflow automation.",
   "author": {
     "name": "Kieran Klaassen",
