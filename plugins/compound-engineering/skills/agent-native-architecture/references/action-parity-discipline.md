@@ -390,6 +390,102 @@ Agent: [Uses publish_to_feed to create insight]
 ```
 </examples>
 
+<cli_prime_command>
+## CLI Prime Command Pattern
+
+When building CLI tools that agents will use, include a `prime` command that outputs detailed agent-specific instructions.
+
+### Why?
+
+Agents need context about:
+- What commands are available and what they do
+- Best practices for using the CLI
+- What to do and what NOT to do
+- Error handling and exit codes
+- Authentication patterns
+
+A human can read `--help` and figure it out. An agent benefits from explicit, structured instructions.
+
+### Implementation
+
+```ruby
+desc "prime", "Output detailed instructions for AI agents on how to use this CLI"
+def prime
+  puts <<~PRIME
+    # MyApp CLI - Agent Instructions
+
+    You are interacting with MyApp via CLI.
+
+    ## Authentication
+
+    Before running any command, authenticate:
+    ```
+    export MYAPP_API_TOKEN=token_xxx
+    ```
+
+    ## Available Commands
+
+    ### Safe Commands (read-only)
+    - `myapp status` - Show current state
+    - `myapp list` - List resources
+    - `myapp help` - Show all commands
+
+    ### Write Commands (use with caution)
+    - `myapp create` - Create new resource
+    - `myapp delete` - Delete resource (destructive!)
+
+    ## Best Practices for Agents
+
+    ### DO:
+    - Always verify authentication with `myapp status` first
+    - Use environment variable auth for stateless operation
+    - Wait for each command to complete before running the next
+
+    ### DON'T:
+    - Don't assume authentication state
+    - Don't retry failed commands without user guidance
+    - Don't run destructive commands without explicit user confirmation
+
+    ## Error Handling
+
+    Exit codes:
+    - 0: Success
+    - 1: General error
+    - 2: Authentication required
+    - 3: Network error
+    - 4: Not found
+    - 5: Permission denied
+
+    ## Output Format
+
+    All commands output plain text, one item per line.
+    Future: Use `--format=json` for machine-readable output.
+  PRIME
+end
+```
+
+### Agent Workflow
+
+When an agent needs to use a CLI tool:
+
+```
+1. Run `myapp prime` to get instructions
+2. Set MYAPP_API_TOKEN environment variable
+3. Run `myapp status` to verify authentication
+4. Proceed with task-specific commands
+```
+
+### Checklist for CLI Tools
+
+- [ ] Include a `prime` command with agent instructions
+- [ ] Document all available commands
+- [ ] Clearly mark read-only vs write commands
+- [ ] Include DO and DON'T best practices
+- [ ] Document exit codes
+- [ ] Explain authentication options
+- [ ] Note output format for parsing
+</cli_prime_command>
+
 <checklist>
 ## Action Parity Checklist
 

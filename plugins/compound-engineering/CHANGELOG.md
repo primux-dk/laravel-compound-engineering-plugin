@@ -5,6 +5,22 @@ All notable changes to the compound-engineering plugin will be documented in thi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.2] - 2026-01-06
+
+### Added
+
+- **Agent-native architecture skill** - Added "CLI Prime Command Pattern":
+  - New pattern for building agent-friendly CLI tools
+  - Include a `prime` command that outputs detailed instructions for AI agents
+  - Documents available commands, best practices, error codes, and authentication
+  - Agents can run `myapp prime` to understand how to use the CLI effectively
+
+### Why?
+
+Humans can read `--help` and figure things out. Agents benefit from explicit, structured instructions that tell them not just WHAT commands exist, but HOW to use them effectively, WHEN to use them, and what NOT to do.
+
+---
+
 ## [3.0.1] - 2026-01-06
 
 ### Changed
