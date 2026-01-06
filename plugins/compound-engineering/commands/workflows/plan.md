@@ -354,7 +354,90 @@ end
 - [ ] Emphasize comprehensive testing given rapid implementation
 - [ ] Document any AI-generated code that needs human review
 
-### 6. Final Review & Submission
+### 6. Add Mermaid Diagrams (REQUIRED)
+
+**Always include relevant mermaid diagrams to visualize the plan.** Choose appropriate diagram types:
+
+#### Architecture Diagram (for system/integration features)
+
+```mermaid
+graph TB
+    subgraph "Client"
+        A[User/Agent] --> B[CLI/API]
+    end
+    subgraph "Server"
+        B --> C[Controller]
+        C --> D[Service]
+        D --> E[Model]
+    end
+    subgraph "External"
+        D --> F[External API]
+    end
+```
+
+#### Sequence Diagram (for flows/interactions)
+
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant C as Controller
+    participant S as Service
+    participant DB as Database
+
+    U->>C: Request
+    C->>S: Process
+    S->>DB: Query
+    DB-->>S: Result
+    S-->>C: Response
+    C-->>U: Display
+```
+
+#### ERD Diagram (for model changes)
+
+```mermaid
+erDiagram
+    User ||--o{ ApiToken : has_many
+    User ||--o{ Account : belongs_to
+    ApiToken {
+        uuid id PK
+        string token
+        datetime expires_at
+    }
+```
+
+#### State Diagram (for status/workflow changes)
+
+```mermaid
+stateDiagram-v2
+    [*] --> Pending
+    Pending --> Processing: start
+    Processing --> Completed: success
+    Processing --> Failed: error
+    Failed --> Pending: retry
+    Completed --> [*]
+```
+
+#### Flowchart (for decision logic)
+
+```mermaid
+flowchart TD
+    A[Start] --> B{Authenticated?}
+    B -->|Yes| C[Process Request]
+    B -->|No| D[Return 401]
+    C --> E{Valid?}
+    E -->|Yes| F[Success]
+    E -->|No| G[Return Error]
+```
+
+**Diagram Requirements:**
+- [ ] Include at least ONE mermaid diagram in every plan
+- [ ] Use architecture diagram for new integrations/features
+- [ ] Use sequence diagram for multi-step flows
+- [ ] Use ERD for any new models or model changes
+- [ ] Use state diagram for status/workflow changes
+- [ ] Use flowchart for complex decision logic
+
+### 7. Final Review & Submission
 
 **Pre-submission Checklist:**
 
@@ -364,7 +447,8 @@ end
 - [ ] Links and references are working
 - [ ] Acceptance criteria are measurable
 - [ ] Add names of files in pseudo code examples and todo lists
-- [ ] Add an ERD mermaid diagram if applicable for new model changes
+- [ ] **At least one mermaid diagram included** (architecture, sequence, ERD, state, or flowchart)
+- [ ] Diagrams accurately represent the proposed implementation
 
 ## Output Format
 

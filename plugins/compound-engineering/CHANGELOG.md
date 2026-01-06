@@ -5,6 +5,22 @@ All notable changes to the compound-engineering plugin will be documented in thi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.1] - 2026-01-06
+
+### Changed
+
+- **`/plan:compound` command** - Added mandatory mermaid diagram requirements:
+  - New "Add Mermaid Diagrams (REQUIRED)" section with examples
+  - Templates for architecture, sequence, ERD, state, and flowchart diagrams
+  - Checklist items to ensure at least one diagram per plan
+  - Updated pre-submission checklist to verify diagram inclusion
+
+### Why?
+
+Visual diagrams significantly improve plan clarity and communication. Mermaid diagrams render directly in GitHub/GitLab and most markdown viewers, making plans more scannable and understandable.
+
+---
+
 ## [3.0.0] - 2026-01-06
 
 ### Breaking Changes
