@@ -3,26 +3,23 @@
   "version": "2.26.4",
   "description": "AI-powered development tools. 27 agents, 21 commands, 14 skills, 1 MCP server for code review, research, design, and workflow automation.",
   "author": {
-    "name": "Kieran Klaassen",
-    "email": "kieran@every.to",
-    "url": "https://github.com/kieranklaassen"
+    "name": "Kristian Primdal",
+    "url": "https://github.com/primux-dk"
   },
-  "homepage": "https://every.to/source-code/my-ai-had-already-fixed-the-code-before-i-saw-it",
-  "repository": "https://github.com/EveryInc/every-marketplace",
+  "homepage": "https://github.com/primux-dk/laravel-compound-engineering",
+  "repository": "https://github.com/primux-dk/laravel-compound-engineering",
   "license": "MIT",
   "keywords": [
+    "laravel",
+    "php",
+    "livewire",
+    "pest",
+    "tall-stack",
     "ai-powered",
     "compound-engineering",
     "workflow-automation",
     "code-review",
-    "rails",
-    "ruby",
-    "python",
-    "typescript",
-    "knowledge-management",
-    "image-generation",
-    "agent-browser",
-    "browser-automation"
+    "knowledge-management"
   ],
   "mcpServers": {
     "context7": {

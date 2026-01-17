@@ -1,28 +1,22 @@
-# Every Marketplace - Claude Code Plugin Marketplace
+# Laravel Compound Engineering Plugin
 
 This repository is a Claude Code plugin marketplace that distributes the `compound-engineering` plugin to developers building with AI-powered tools.
 
 ## Repository Structure
 
 ```
-every-marketplace/
+laravel-compound-engineering-plugin/
 ├── .claude-plugin/
 │   └── marketplace.json          # Marketplace catalog (lists available plugins)
-├── docs/                         # Documentation site (GitHub Pages)
-│   ├── index.html                # Landing page
-│   ├── css/                      # Stylesheets
-│   ├── js/                       # JavaScript
-│   └── pages/                    # Reference pages
 └── plugins/
-    └── compound-engineering/   # The actual plugin
+    └── compound-engineering/     # The actual plugin
         ├── .claude-plugin/
-        │   └── plugin.json        # Plugin metadata
-        ├── agents/                # 24 specialized AI agents
-        ├── commands/              # 13 slash commands
-        ├── skills/                # 11 skills
-        ├── mcp-servers/           # 2 MCP servers (playwright, context7)
-        ├── README.md              # Plugin documentation
-        └── CHANGELOG.md           # Version history
+        │   └── plugin.json       # Plugin metadata
+        ├── agents/               # Specialized AI agents
+        ├── commands/             # Slash commands
+        ├── skills/               # Skills
+        ├── README.md             # Plugin documentation
+        └── CHANGELOG.md          # Version history
 ```
 
 ## Philosophy: Compounding Engineering
@@ -35,6 +29,102 @@ When working on this repository, follow the compounding engineering process:
 2. **Delegate** → Use AI tools to help with implementation
 3. **Assess** → Verify changes work as expected
 4. **Codify** → Update this CLAUDE.md with learnings
+
+## Claude Code Extension Architecture (v2.1.3+)
+
+> **Important:** As of Claude Code 2.1.3, commands and skills have been unified into a single system.
+
+### The Three Extension Types
+
+| Type | Purpose | Invocation | Context |
+|------|---------|------------|---------|
+| **Skills** | Reusable knowledge & prompts | `/skill` or auto-discovered | Same conversation |
+| **Agents** | Isolated specialized workers | `@agent` or auto-delegated | Separate context |
+| **Hooks** | Deterministic enforcement | Automatic on events | N/A |
+
+### Skills: The Unified Approach
+
+Commands and skills are now the same mechanism. The Skill tool handles both user-invoked (`/command`) and model-invoked (auto-discovered) capabilities.
+
+**Structure options:**
+
+```
+# Simple skill (single file)
+skills/commit.md
+
+# Complex skill (directory with supporting files)
+skills/livewire/
+├── SKILL.md
+├── PATTERNS.md
+└── scripts/
+```
+
+**Frontmatter controls:**
+
+```yaml
+---
+name: my-skill
+description: What it does and when to use it
+
+# Visibility Controls
+user-invocable: true              # Show in / menu (default: true)
+disable-model-invocation: false   # Prevent auto-discovery (default: false)
+
+# Tool Restrictions
+allowed-tools: Read, Grep, Glob   # Limit available tools (optional)
+
+# Other Options
+model: claude-3-5-haiku-20241022  # Override model (optional)
+---
+```
+
+**Mapping old commands to new skills:**
+
+| Desired Behavior | Frontmatter Configuration |
+|------------------|---------------------------|
+| Manual `/command` only | `disable-model-invocation: true` |
+| Auto-discovered only | `user-invocable: false` |
+| Both (hybrid) | Default - no flags needed |
+
+### Agents vs Skills
+
+| Aspect | Skills | Agents |
+|--------|--------|--------|
+| **Context** | Same conversation | Isolated context window |
+| **Effect** | Injects knowledge | Delegates task, returns summary |
+| **Tool access** | Inherits or restricts | Fully configurable |
+| **Nesting** | Can chain | Cannot spawn other subagents |
+
+**Use agents when you need:**
+- Context isolation (exploration shouldn't pollute main conversation)
+- Different tool permissions (read-only reviewer, restricted deployer)
+- Cost control (route simple tasks to Haiku)
+- Parallel/background execution
+
+**Agent frontmatter:**
+
+```yaml
+---
+name: code-reviewer
+description: Review code for quality and security
+tools: Read, Grep, Glob       # Allowed tools
+model: haiku                  # Model override
+skills: skill-1, skill-2     # Inject skills at startup
+---
+```
+
+### Hooks: Deterministic Enforcement
+
+Hooks are NOT part of the skill unification. They provide deterministic control where CLAUDE.md and skills are suggestions.
+
+```
+CLAUDE.md saying "don't edit .env" → Parsed by LLM → Maybe followed
+PreToolUse hook blocking .env edits → Always runs → Operation blocked
+```
+
+**Hook events:** `PreToolUse`, `PostToolUse`, `Stop`, `SubagentStop`, `Notification`
+
+---
 
 ## Working with This Repository
 
@@ -92,21 +182,7 @@ When adding new functionality, bump the version in:
 - [ ] `plugins/compound-engineering/CHANGELOG.md` → document changes
 - [ ] `CLAUDE.md` → update structure diagram if needed
 
-#### 5. Rebuild documentation site
-
-Run the release-docs command to update all documentation pages:
-
-```bash
-claude /release-docs
-```
-
-This will:
-- Update stats on the landing page
-- Regenerate reference pages (agents, commands, skills, MCP servers)
-- Update the changelog page
-- Validate all counts match actual files
-
-#### 6. Validate JSON files
+#### 5. Validate JSON files
 
 ```bash
 cat .claude-plugin/marketplace.json | jq .
@@ -187,73 +263,6 @@ Each plugin has its own plugin.json with detailed metadata:
 }
 ```
 
-## Documentation Site
-
-The documentation site is at `/docs` in the repository root (for GitHub Pages). This site is built with plain HTML/CSS/JS (based on Evil Martians' LaunchKit template) and requires no build step to view.
-
-### Documentation Structure
-
-```
-docs/
-├── index.html           # Landing page with stats and philosophy
-├── css/
-│   ├── style.css        # Main styles (LaunchKit-based)
-│   └── docs.css         # Documentation-specific styles
-├── js/
-│   └── main.js          # Interactivity (theme toggle, mobile nav)
-└── pages/
-    ├── getting-started.html  # Installation and quick start
-    ├── agents.html           # All 24 agents reference
-    ├── commands.html         # All 13 commands reference
-    ├── skills.html           # All 11 skills reference
-    ├── mcp-servers.html      # MCP servers reference
-    └── changelog.html        # Version history
-```
-
-### Keeping Docs Up-to-Date
-
-**IMPORTANT:** After ANY change to agents, commands, skills, or MCP servers, run:
-
-```bash
-claude /release-docs
-```
-
-This command:
-1. Counts all current components
-2. Reads all agent/command/skill/MCP files
-3. Regenerates all reference pages
-4. Updates stats on the landing page
-5. Updates the changelog from CHANGELOG.md
-6. Validates counts match across all files
-
-### Manual Updates
-
-If you need to update docs manually:
-
-1. **Landing page stats** - Update the numbers in `docs/index.html`:
-   ```html
-   <span class="stat-number">24</span>  <!-- agents -->
-   <span class="stat-number">13</span>  <!-- commands -->
-   ```
-
-2. **Reference pages** - Each page in `docs/pages/` documents all components in that category
-
-3. **Changelog** - `docs/pages/changelog.html` mirrors `CHANGELOG.md` in HTML format
-
-### Viewing Docs Locally
-
-Since the docs are static HTML, you can view them directly:
-
-```bash
-# Open in browser
-open docs/index.html
-
-# Or start a local server
-cd docs
-python -m http.server 8000
-# Then visit http://localhost:8000
-```
-
 ## Testing Changes
 
 ### Test Locally
@@ -261,7 +270,7 @@ python -m http.server 8000
 1. Install the marketplace locally:
 
    ```bash
-   claude /plugin marketplace add /Users/yourusername/every-marketplace
+   claude /plugin marketplace add /Users/yourusername/laravel-compound-engineering-plugin
    ```
 
 2. Install the plugin:
@@ -296,9 +305,18 @@ cat plugins/compound-engineering/.claude-plugin/plugin.json | jq .
 
 ### Adding a New Command
 
+> **Note:** As of Claude Code 2.1.3, commands and skills are unified. New "commands" should be created as skills with `disable-model-invocation: true` if they should only be manually invoked.
+
+**Legacy approach (commands/ directory):**
 1. Create `plugins/compound-engineering/commands/new-command.md`
 2. Update plugin.json command count and command list
 3. Update README.md command list
+4. Test with `claude /new-command`
+
+**Recommended approach (skills with manual-only flag):**
+1. Create `plugins/compound-engineering/skills/new-command.md` (or `skills/new-command/SKILL.md` for complex commands)
+2. Add frontmatter with `disable-model-invocation: true`
+3. Update counts and documentation
 4. Test with `claude /new-command`
 
 ### Adding a New Skill
@@ -321,6 +339,11 @@ cat plugins/compound-engineering/.claude-plugin/plugin.json | jq .
 ---
 name: skill-name
 description: Brief description of what the skill does
+
+# Optional visibility controls (see Architecture section above)
+user-invocable: true              # Show in / menu (default: true)
+disable-model-invocation: false   # Prevent auto-discovery (default: false)
+allowed-tools: Read, Grep, Glob   # Restrict available tools (optional)
 ---
 
 # Skill Title
@@ -362,6 +385,28 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 ## Key Learnings
 
 _This section captures important learnings as we work on this repository._
+
+### 2024-11-22: Added gemini-imagegen skill and fixed component counts
+
+Added the first skill to the plugin and discovered the component counts were wrong (said 15 agents, actually had 17). Created a comprehensive checklist for updating the plugin to prevent this in the future.
+
+**Learning:** Always count actual files before updating descriptions. The counts appear in multiple places (plugin.json, marketplace.json, README.md) and must all match. Use the verification commands in the checklist above.
+
+### 2026-01-17: Claude Code 2.1.3 unified commands and skills
+
+Discovered that Claude Code 2.1.3 merged slash commands and skills into a single system. Key insights:
+
+- **Commands and skills are now the same mechanism** - both handled by the Skill tool
+- **Frontmatter controls visibility**: `user-invocable` (show in / menu) and `disable-model-invocation` (prevent auto-discovery)
+- **Agents remain separate** - they provide isolated context, not same-conversation knowledge
+- **Hooks remain separate** - they provide deterministic enforcement
+
+The mental model:
+- "Should this knowledge be reusable?" → **Skill**
+- "Should this run in isolation?" → **Agent**
+- "Must this ALWAYS happen?" → **Hook**
+
+**Learning:** When creating new commands, prefer creating them as skills with `disable-model-invocation: true` for manual-only behavior. This aligns with the unified architecture and gives more control over visibility.
 
 ### 2024-11-22: Added gemini-imagegen skill and fixed component counts
 
