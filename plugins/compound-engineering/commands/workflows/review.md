@@ -74,15 +74,15 @@ Run ALL or most of these agents at the same time:
 
 These agents are run ONLY when the PR matches specific criteria. Check the PR files list to determine if they apply:
 
-**If PR contains database migrations (db/migrate/*.rb files) or data backfills:**
+**If PR contains database migrations (database/migrations/*.php files) or data backfills:**
 
 14. Task data-migration-expert(PR content) - Validates ID mappings match production, checks for swapped values, verifies rollback safety
 15. Task deployment-verification-agent(PR content) - Creates Go/No-Go deployment checklist with SQL verification queries
 
 **When to run migration agents:**
-- PR includes files matching `db/migrate/*.rb`
+- PR includes files matching `database/migrations/*.php`
 - PR modifies columns that store IDs, enums, or mappings
-- PR includes data backfill scripts or rake tasks
+- PR includes data backfill scripts or artisan commands
 - PR changes how data is read/written (e.g., changing from FK to string column)
 - PR title/body mentions: migration, backfill, data transformation, ID mapping
 
@@ -329,7 +329,7 @@ Examples:
 - `p2` - Important (should fix, architectural/performance)
 - `p3` - Nice-to-have (enhancements, cleanup)
 
-**Tagging:** Always add `code-review` tag, plus: `security`, `performance`, `architecture`, `rails`, `quality`, etc.
+**Tagging:** Always add `code-review` tag, plus: `security`, `performance`, `architecture`, `laravel`, `quality`, etc.
 
 #### Step 3: Summary Report
 
@@ -432,7 +432,7 @@ After creating all todo files, present comprehensive summary:
 | Indicator | Project Type |
 |-----------|--------------|
 | `*.xcodeproj`, `*.xcworkspace`, `Package.swift` (iOS) | iOS/macOS |
-| `Gemfile`, `package.json`, `app/views/*`, `*.html.*` | Web |
+| `composer.json`, `package.json`, `resources/views/*`, `*.blade.php` | Web |
 | Both iOS files AND web files | Hybrid (test both) |
 
 </detect_project_type>
@@ -455,7 +455,7 @@ After presenting the Summary Report, offer appropriate testing based on project 
 2. No - skip
 ```
 
-**For Hybrid Projects (e.g., Rails + Hotwire Native):**
+**For Hybrid Projects (e.g., Laravel + Hotwire Native):**
 ```markdown
 **"Want to run end-to-end tests?"**
 1. Web only - run `/test-browser`

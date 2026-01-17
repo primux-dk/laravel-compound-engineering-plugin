@@ -187,7 +187,7 @@ Each learning file has YAML frontmatter with metadata. Read the first ~20 lines 
 ---
 title: "N+1 Query Fix for Briefs"
 category: performance-issues
-tags: [activerecord, n-plus-one, includes, eager-loading]
+tags: [eloquent, n-plus-one, eager-loading, with]
 module: Briefs
 symptom: "Slow page load, multiple queries in logs"
 root_cause: "Missing includes on association"
@@ -211,7 +211,7 @@ Compare each learning's frontmatter against the plan:
 
 **SKIP learnings that are clearly not applicable:**
 - Plan is frontend-only → skip `database-migrations/` learnings
-- Plan is Python → skip `rails-specific/` learnings
+- Plan is Python → skip `laravel-specific/` learnings
 - Plan has no auth → skip `authentication-issues/` learnings
 
 **SPAWN sub-agents for learnings that MIGHT apply:**
@@ -248,10 +248,10 @@ If NOT relevant after deeper analysis:
 
 **Example filtering:**
 ```
-# Found 15 learning files, plan is about "Rails API caching"
+# Found 15 learning files, plan is about "Laravel API caching"
 
 # SPAWN (likely relevant):
-docs/solutions/performance-issues/n-plus-one-queries.md      # tags: [activerecord] ✓
+docs/solutions/performance-issues/n-plus-one-queries.md      # tags: [eloquent] ✓
 docs/solutions/performance-issues/redis-cache-stampede.md    # tags: [caching, redis] ✓
 docs/solutions/configuration-fixes/redis-connection-pool.md  # tags: [redis] ✓
 

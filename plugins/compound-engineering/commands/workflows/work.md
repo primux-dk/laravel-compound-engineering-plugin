@@ -117,7 +117,7 @@ This command takes a work document (plan, specification, or todo file) and execu
 
    ```bash
    # Run full test suite
-   bin/rails test
+   php artisan test
 
    # Run linting (per CLAUDE.md)
    # Use linting-agent before pushing to origin
@@ -178,7 +178,7 @@ This command takes a work document (plan, specification, or todo file) and execu
 
    **Step 1: Start dev server** (if not running)
    ```bash
-   bin/dev  # Run in background
+   php artisan serve  # Run in background
    ```
 
    **Step 2: Capture screenshots with agent-browser CLI**
@@ -281,7 +281,7 @@ Before creating PR, verify:
 
 - [ ] All clarifying questions asked and answered
 - [ ] All TodoWrite tasks marked completed
-- [ ] Tests pass (run `bin/rails test`)
+- [ ] Tests pass (run `php artisan test`)
 - [ ] Linting passes (use linting-agent)
 - [ ] Code follows existing patterns
 - [ ] Figma designs match implementation (if applicable)

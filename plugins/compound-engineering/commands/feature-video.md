@@ -21,7 +21,7 @@ This command creates professional video walkthroughs of features for PR document
 ## Prerequisites
 
 <requirements>
-- Local development server running (e.g., `bin/dev`, `rails server`)
+- Local development server running (e.g., `php artisan serve`, `npm run dev`)
 - agent-browser CLI installed
 - Git repository with a PR to document
 - `ffmpeg` installed (for video conversion)
@@ -79,10 +79,10 @@ gh pr view [number] --json files -q '.files[].path'
 
 | File Pattern | Route(s) |
 |-------------|----------|
-| `app/views/users/*` | `/users`, `/users/:id`, `/users/new` |
-| `app/controllers/settings_controller.rb` | `/settings` |
-| `app/javascript/controllers/*_controller.js` | Pages using that Stimulus controller |
-| `app/components/*_component.rb` | Pages rendering that component |
+| `resources/views/users/*` | `/users`, `/users/:id`, `/users/create` |
+| `app/Http/Controllers/SettingsController.php` | `/settings` |
+| `resources/js/components/*` | Pages using that component |
+| `app/Livewire/*` | Pages rendering that Livewire component |
 
 </gather_context>
 

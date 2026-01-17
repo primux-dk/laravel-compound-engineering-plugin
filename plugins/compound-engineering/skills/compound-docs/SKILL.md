@@ -70,7 +70,7 @@ Extract from conversation history:
 
 **Environment details:**
 
-- Rails version
+- Laravel version
 - Stage (0-6 or post-implementation)
 - OS version
 - File/line references
@@ -290,7 +290,7 @@ What's next?
 User selects this when:
 - System made this mistake multiple times across different modules
 - Solution is non-obvious but must be followed every time
-- Foundational requirement (Rails, Rails API, threading, etc.)
+- Foundational requirement (Laravel, Laravel API, queue jobs, etc.)
 
 Action:
 1. Extract pattern from the documentation
@@ -456,7 +456,7 @@ Documentation is successful when ALL of the following are true:
    - Module: Brief System
    - Symptom: Brief generation taking >5 seconds, N+1 query when loading email threads
    - Failed attempts: Added pagination (didn't help), checked background job performance
-   - Solution: Added eager loading with `includes(:emails)` on Brief model
+   - Solution: Added eager loading with `with('emails')` on Brief model
    - Root cause: Missing eager loading causing separate database query per email thread
 3. **Check existing:** No similar issue found
 4. **Generate filename:** `n-plus-one-brief-generation-BriefSystem-20251110.md`
@@ -465,7 +465,7 @@ Documentation is successful when ALL of the following are true:
    module: Brief System
    date: 2025-11-10
    problem_type: performance_issue
-   component: rails_model
+   component: eloquent_model
    symptoms:
      - "N+1 query when loading email threads"
      - "Brief generation taking >5 seconds"

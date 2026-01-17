@@ -61,7 +61,7 @@ Each todo is a markdown file with YAML frontmatter and structured sections. Use 
 status: ready              # pending | ready | complete
 priority: p1              # p1 | p2 | p3
 issue_id: "002"
-tags: [rails, performance, database]
+tags: [laravel, performance, database]
 dependencies: ["001"]     # Issue IDs this is blocked by
 ---
 ```
@@ -221,7 +221,7 @@ grep -l 'dependencies:.*"002"' todos/*.md
 **Searching:**
 ```bash
 # Search by tag
-grep -l "tags:.*rails" todos/*.md
+grep -l "tags:.*laravel" todos/*.md
 
 # Search by priority
 ls todos/*-p1-*.md
@@ -238,10 +238,10 @@ grep -r "payment" todos/
 - Standalone markdown files with YAML frontmatter
 - Used by humans and agents
 
-**Rails Todo model:**
-- Database model in `app/models/todo.rb`
+**Laravel Todo model:**
+- Database model in `app/Models/Todo.php`
 - User-facing feature in the application
-- Active Record CRUD operations
+- Eloquent CRUD operations
 - Different from this file-based system
 
 **TodoWrite tool:**

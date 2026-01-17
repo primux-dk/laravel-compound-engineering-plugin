@@ -19,7 +19,7 @@ required_fields:
   problem_type:
     type: enum
     values:
-      - build_error          # Rails, bundle, compilation errors
+      - build_error          # Laravel, composer, compilation errors
       - test_failure         # Test failures, flaky tests
       - runtime_error        # Exceptions, crashes during execution
       - performance_issue    # Slow queries, memory issues, N+1 queries
@@ -37,18 +37,18 @@ required_fields:
   component:
     type: enum
     values:
-      - rails_model          # ActiveRecord models
-      - rails_controller     # ActionController
-      - rails_view           # ERB templates, ViewComponent
-      - service_object       # Custom service classes
-      - background_job       # Sidekiq, Active Job
-      - database             # PostgreSQL, migrations, schema
-      - frontend_stimulus    # Stimulus JS controllers
-      - hotwire_turbo        # Turbo Streams, Turbo Drive
-      - email_processing     # Email handling, mailers
+      - eloquent_model       # Eloquent models
+      - laravel_controller   # Laravel controllers
+      - blade_view           # Blade templates, View components
+      - service_object       # Custom service/action classes
+      - background_job       # Laravel Queue, Horizon
+      - database             # MySQL/PostgreSQL, migrations, schema
+      - alpine_js            # Alpine.js controllers
+      - livewire             # Livewire components
+      - email_processing     # Email handling, mailables
       - brief_system         # Brief generation, summarization
       - assistant            # AI assistant, prompts
-      - authentication       # Devise, user auth
+      - authentication       # Laravel Fortify/Breeze/Jetstream
       - payments             # Stripe, billing
       - development_workflow # Dev process, seed data, tooling
       - testing_framework    # Test setup, fixtures, VCR
@@ -69,10 +69,10 @@ required_fields:
   root_cause:
     type: enum
     values:
-      - missing_association  # Incorrect Rails associations
+      - missing_association  # Incorrect Eloquent relationships
       - missing_include      # Missing eager loading (N+1)
       - missing_index        # Database performance issue
-      - wrong_api            # Using deprecated/incorrect Rails API
+      - wrong_api            # Using deprecated/incorrect Laravel API
       - scope_issue          # Incorrect query scope or filtering
       - thread_violation     # Real-time unsafe operation
       - async_timing         # Async/background job timing
@@ -95,12 +95,12 @@ required_fields:
       - migration            # Fixed by database migration
       - config_change        # Fixed by changing configuration
       - test_fix             # Fixed by correcting tests
-      - dependency_update    # Fixed by updating gem/dependency
+      - dependency_update    # Fixed by updating package/dependency
       - environment_setup    # Fixed by environment configuration
       - workflow_improvement # Improved development workflow or process
       - documentation_update # Added or updated documentation
       - tooling_addition     # Added helper script or automation
-      - seed_data_update     # Updated db/seeds.rb or fixtures
+      - seed_data_update     # Updated database/seeders or factories
     description: "Type of fix applied"
 
   severity:
@@ -113,10 +113,10 @@ required_fields:
     description: "Impact severity"
 
 optional_fields:
-  rails_version:
+  laravel_version:
     type: string
     pattern: '^\d+\.\d+\.\d+$'
-    description: "Rails version where this was encountered (e.g., '7.1.0')"
+    description: "Laravel version where this was encountered (e.g., '11.0.0')"
 
   related_components:
     type: array[string]
@@ -148,12 +148,12 @@ validation_rules:
 # module: Email Processing
 # date: 2025-11-12
 # problem_type: performance_issue
-# component: rails_model
+# component: eloquent_model
 # symptoms:
 #   - N+1 query when loading email threads
 #   - Brief generation taking >5 seconds
 # root_cause: missing_include
-# rails_version: 7.1.2
+# laravel_version: 11.0.0
 # resolution_type: code_fix
 # severity: high
 # tags: [n-plus-one, eager-loading, performance]
@@ -167,9 +167,9 @@ validation_rules:
 # component: development_workflow
 # symptoms:
 #   - No example data for new feature in development
-#   - Rails db:seed doesn't demonstrate new capabilities
+#   - php artisan db:seed doesn't demonstrate new capabilities
 # root_cause: incomplete_setup
-# rails_version: 7.1.2
+# laravel_version: 11.0.0
 # resolution_type: seed_data_update
 # severity: low
 # tags: [seed-data, dx, workflow]
