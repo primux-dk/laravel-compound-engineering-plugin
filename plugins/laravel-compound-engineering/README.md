@@ -7,8 +7,8 @@ AI-powered development tools that get smarter with every use. Make each unit of 
 | Component | Count |
 |-----------|-------|
 | Agents | 24 |
-| Commands | 24 |
-| Skills | 12 |
+| Commands | 20 |
+| Skills | 13 |
 | MCP Servers | 1 |
 
 ## Agents
@@ -134,6 +134,12 @@ Core workflow commands use `workflows:` prefix to avoid collisions with built-in
 | Skill | Description |
 |-------|-------------|
 | `agent-browser` | CLI-based browser automation using Vercel's agent-browser |
+
+### Code Review
+
+| Skill | Description |
+|-------|-------------|
+| `web-interface-review` | Review web UI code against Vercel's Web Interface Guidelines |
 
 ### Image Generation
 

@@ -5,6 +5,22 @@ All notable changes to the compound-engineering plugin will be documented in thi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2026-01-18
+
+### Added
+
+- `web-interface-review` skill - Review web UI code against Vercel's Web Interface Guidelines
+  - Checks accessibility, focus states, forms, animations, typography
+  - Validates performance patterns, navigation, touch interactions, i18n
+  - Outputs findings in VS Code-compatible `file:line` format
+  - Full reference documentation in `references/guidelines.md`
+
+### Summary
+
+- 24 agents, 20 commands, 13 skills, 1 MCP server
+
+---
+
 ## [1.1.0] - 2026-01-18
 
 ### Added
@@ -18,7 +34,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Summary
 
-- 24 agents, 24 commands, 12 skills, 1 MCP server
+- 24 agents, 20 commands, 12 skills, 1 MCP server
 
 ---
 
