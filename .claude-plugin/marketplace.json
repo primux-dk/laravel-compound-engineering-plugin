@@ -10,7 +10,7 @@
   },
   "plugins": [
     {
-      "name": "compound-engineering",
+      "name": "laravel-compound-engineering",
       "description": "AI-powered development tools for Laravel and PHP. Make each unit of engineering work easier than the last. Includes 24 agents, 23 commands, and 12 skills.",
       "version": "1.0.0",
       "author": {
@@ -19,7 +19,7 @@
       },
       "homepage": "https://github.com/primux-dk/laravel-compound-engineering-plugin",
       "tags": ["ai-powered", "compound-engineering", "workflow-automation", "code-review", "laravel", "php", "tall-stack"],
-      "source": "./plugins/compound-engineering"
+      "source": "./plugins/laravel-compound-engineering"
     }
   ]
 }
