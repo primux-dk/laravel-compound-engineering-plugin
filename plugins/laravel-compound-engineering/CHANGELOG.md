@@ -5,6 +5,22 @@ All notable changes to the compound-engineering plugin will be documented in thi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0] - 2026-01-20
+
+### Changed
+
+- `/workflows:plan` - Add interactive refinement for better planning
+  - **Idea Refinement**: Before research, ask clarifying questions using AskUserQuestion
+  - **Research Validation**: After research, summarize findings and validate alignment
+  - Skip option when description is already detailed
+  - Inspired by [PR #88](https://github.com/EveryInc/compound-engineering-plugin/pull/88)
+
+### Summary
+
+- 24 agents, 20 commands, 13 skills, 1 MCP server
+
+---
+
 ## [1.2.0] - 2026-01-18
 
 ### Added
