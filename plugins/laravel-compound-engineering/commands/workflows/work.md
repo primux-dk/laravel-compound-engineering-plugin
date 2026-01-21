@@ -30,28 +30,47 @@ This command takes a work document (plan, specification, or todo file) and execu
 
 2. **Setup Environment**
 
-   Choose your work style:
+   First, detect current branch and repository default:
 
-   **Option A: Live work on current branch**
    ```bash
-   git checkout main && git pull origin main
+   current_branch=$(git branch --show-current)
+   default_branch=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@')
+
+   # Fallback if HEAD ref not set
+   if [ -z "$default_branch" ]; then
+     default_branch=$(git rev-parse --verify origin/main >/dev/null 2>&1 && echo "main" || echo "master")
+   fi
+   ```
+
+   **If on a feature branch** (not default branch):
+   - Ask: "Continue on current branch `$current_branch` or start fresh?"
+   - If continue: pull latest and proceed
+   - If fresh: checkout default branch, pull, create new branch
+
+   **If on the default branch** (main/master):
+
+   **Option A: Create new feature branch**
+   ```bash
+   git pull origin $default_branch
    git checkout -b feature-branch-name
    ```
 
    **Option B: Parallel work with worktree (recommended for parallel development)**
    ```bash
-   # Ask user first: "Work in parallel with worktree or on current branch?"
-   # If worktree:
    skill: git-worktree
-   # The skill will create a new branch from main in an isolated worktree
+   # The skill will create a new branch from default in an isolated worktree
    ```
+
+   **Option C: Work directly on default branch**
+   - ⚠️ **Never commit directly to the default branch without explicit user permission**
+   - Only proceed if user explicitly confirms this is intentional
 
    **Recommendation**: Use worktree if:
    - You want to work on multiple features simultaneously
-   - You want to keep main clean while experimenting
+   - You want to keep the default branch clean while experimenting
    - You plan to switch between branches frequently
 
-   Use live branch if:
+   Use feature branch if:
    - You're working on a single feature
    - You prefer staying in the main repository
 
@@ -79,7 +98,37 @@ This command takes a work document (plan, specification, or todo file) and execu
      - Mark task as completed
    ```
 
-2. **Follow Existing Patterns**
+2. **Incremental Commits**
+
+   Commit early and often to preserve progress and simplify conflict resolution.
+
+   **Decision Matrix:**
+
+   | Commit when... | Don't commit when... |
+   |----------------|----------------------|
+   | Logical unit of work complete | Small part of larger unit |
+   | Tests pass and meaningful progress made | Tests failing |
+   | Switching contexts or taking a break | Purely scaffolding with no behavior |
+   | Feature milestone reached | Would need "WIP" in commit message |
+
+   **The Test:** Can you write a commit message that describes a complete, valuable change? If yes, commit. If the message would be "WIP" or "partial X", wait.
+
+   **Workflow:**
+   ```bash
+   # Stage only relevant files
+   git add [specific files]
+   git status  # Verify staged files
+
+   # Commit with conventional format
+   git commit -m "feat(scope): add X to enable Y"
+   ```
+
+   **Benefits:**
+   - Smaller commits = easier conflict resolution
+   - Progress is preserved if something goes wrong
+   - Clearer history for reviewers
+
+3. **Follow Existing Patterns**
 
    - The plan should reference similar code - read those files first
    - Match naming conventions exactly
@@ -87,14 +136,14 @@ This command takes a work document (plan, specification, or todo file) and execu
    - Follow project coding standards (see CLAUDE.md)
    - When in doubt, grep for similar implementations
 
-3. **Test Continuously**
+4. **Test Continuously**
 
    - Run relevant tests after each significant change
    - Don't wait until the end to test
    - Fix failures immediately
    - Add new tests for new functionality
 
-4. **Figma Design Sync** (if applicable)
+5. **Figma Design Sync** (if applicable)
 
    For UI work with Figma designs:
 
@@ -103,7 +152,7 @@ This command takes a work document (plan, specification, or todo file) and execu
    - Fix visual differences identified
    - Repeat until implementation matches design
 
-5. **Track Progress**
+6. **Track Progress**
    - Keep TodoWrite updated as you complete tasks
    - Note any blockers or unexpected discoveries
    - Create new tasks if scope expands
