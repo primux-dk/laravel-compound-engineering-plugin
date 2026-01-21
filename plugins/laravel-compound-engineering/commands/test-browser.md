@@ -304,6 +304,22 @@ After all tests complete, present summary:
 /test-browser feature/new-dashboard
 ```
 
+## Writing Permanent Browser Tests
+
+For tests that should run on every PR, use PEST browser testing instead of ad-hoc agent-browser checks:
+
+```bash
+# Run existing browser tests
+./vendor/bin/pest tests/Browser
+
+# Run in headed mode (visible browser)
+./vendor/bin/pest tests/Browser --headed
+```
+
+PEST browser tests live in `tests/Browser/` and provide repeatable, CI-friendly coverage.
+
+See `taylor-otwell-style` skill → [testing.md](../skills/taylor-otwell-style/references/testing.md) for PEST browser patterns.
+
 ## agent-browser CLI Reference
 
 **ALWAYS use these Bash commands. NEVER use mcp__claude-in-chrome__* tools.**
