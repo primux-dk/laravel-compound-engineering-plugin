@@ -21,7 +21,7 @@ PEST is Taylor's preferred test framework for Laravel:
 
 ## Factories for Test Data
 
-Taylor prefers factories over fixtures (opposite of DHH):
+Taylor prefers factories over fixtures:
 > "Laravel model factories and seeders make it painless to create test database records."
 
 ```php
@@ -283,6 +283,267 @@ it('emits event on team creation', function () {
         ->call('save')
         ->assertDispatched('team-created');
 });
+```
+
+## Browser Testing with PEST
+
+PEST includes a powerful browser testing plugin built on Playwright for end-to-end testing.
+
+**Setup:**
+```bash
+composer require pestphp/pest-plugin-browser --dev
+npm install playwright@latest
+npx playwright install
+```
+
+Add `tests/Browser/Screenshots` to `.gitignore`.
+
+### Basic Navigation
+
+```php
+it('welcomes the user', function () {
+    $page = visit('/');
+    $page->assertSee('Welcome');
+});
+
+// Visit multiple pages
+$pages = visit(['/', '/about']);
+[$homePage, $aboutPage] = $pages;
+```
+
+### Browser & Device Configuration
+
+```php
+// Switch browsers (default: Chrome)
+./vendor/bin/pest --browser firefox
+
+// In tests/Pest.php
+pest()->browser()->inFirefox();
+
+// Mobile testing
+$page = visit('/')->on()->mobile();
+$page = visit('/')->on()->iPhone14Pro();
+
+// Dark mode
+$page = visit('/')->inDarkMode();
+
+// Configuration options
+pest()->browser()->timeout(10000);
+pest()->browser()->userAgent('CustomUserAgent');
+pest()->browser()->headed();  // Show browser window
+
+// Per-request configuration
+$page = visit('/')->withLocale('fr-FR')
+                   ->withTimezone('America/New_York')
+                   ->geolocation(39.399872, -8.224454);
+```
+
+### Element Location
+
+```php
+$page->click('Login');           // Text-based
+$page->click('.btn-primary');    // CSS selector
+$page->click('@login');          // data-test attribute
+$page->click('#submit-button');  // ID selector
+```
+
+### Form Interactions
+
+```php
+$page->type('email', 'test@example.com');
+$page->typeSlowly('password', 'secret');
+$page->append('description', ' More text');
+$page->clear('search');
+$page->select('country', 'US');
+$page->select('interests', ['music', 'sports']);
+$page->check('terms');
+$page->uncheck('newsletter');
+$page->radio('size', 'large');
+$page->attach('avatar', '/path/to/image.jpg');
+```
+
+### Keyboard & Advanced Interactions
+
+```php
+$page->keys('input', 'secret');
+$page->keys('input', ['{Control}', 'a']);
+$page->withKeyDown('Shift', function ($page) {
+    $page->keys('#input', ['KeyA', 'KeyB']);
+});
+$page->press('Submit');
+$page->pressAndWaitFor('Submit', 2);
+$page->drag('#item', '#target');
+$page->hover('#item');
+$page->submit();
+```
+
+### Navigation & Page Methods
+
+```php
+$page->navigate('/about')->assertSee('About Us');
+$page->resize(1280, 720);
+$html = $page->content();
+$url = $page->url();
+$page->wait(2);
+```
+
+### Element Data Retrieval
+
+```php
+$text = $page->text('.header');
+$alt = $page->attribute('img', 'alt');
+$value = $page->value('input[name=email]');
+$result = $page->script('document.title');
+```
+
+### Content Assertions
+
+```php
+$page->assertTitle('Home Page');
+$page->assertTitleContains('Home');
+$page->assertSee('Welcome text');
+$page->assertDontSee('Error');
+$page->assertSeeIn('.header', 'Welcome');
+$page->assertDontSeeIn('.error', 'Error');
+$page->assertSeeAnythingIn('.content');
+$page->assertSeeNothingIn('.empty');
+$page->assertCount('.item', 5);
+$page->assertSourceHas('<h1>Welcome</h1>');
+$page->assertSourceMissing('<div class="error">');
+```
+
+### Link Assertions
+
+```php
+$page->assertSeeLink('About Us');
+$page->assertDontSeeLink('Admin');
+```
+
+### Form State Assertions
+
+```php
+$page->assertChecked('terms');
+$page->assertChecked('color', 'blue');
+$page->assertNotChecked('newsletter');
+$page->assertIndeterminate('partial');
+$page->assertRadioSelected('size', 'large');
+$page->assertRadioNotSelected('size', 'small');
+$page->assertSelected('country', 'US');
+$page->assertNotSelected('country', 'UK');
+$page->assertValue('input[name=email]', 'test@example.com');
+$page->assertValueIsNot('input[name=email]', 'wrong@test.com');
+```
+
+### Attribute Assertions
+
+```php
+$page->assertAttribute('img', 'alt', 'Profile');
+$page->assertAttributeMissing('button', 'disabled');
+$page->assertAttributeContains('div', 'class', 'container');
+$page->assertAttributeDoesntContain('div', 'class', 'hidden');
+$page->assertAriaAttribute('button', 'label', 'Close');
+$page->assertDataAttribute('div', 'id', '123');
+```
+
+### Visibility & Presence Assertions
+
+```php
+$page->assertVisible('.alert');
+$page->assertPresent('form');
+$page->assertNotPresent('.error');
+$page->assertMissing('.hidden');
+$page->assertEnabled('email');
+$page->assertDisabled('submit');
+$page->assertButtonEnabled('Save');
+$page->assertButtonDisabled('Submit');
+```
+
+### URL Assertions
+
+```php
+$page->assertUrlIs('https://example.com/home');
+$page->assertSchemeIs('https');
+$page->assertHostIs('example.com');
+$page->assertPortIs('443');
+$page->assertPathIs('/dashboard');
+$page->assertPathBeginsWith('/users');
+$page->assertPathEndsWith('/profile');
+$page->assertPathContains('settings');
+$page->assertQueryStringHas('page');
+$page->assertQueryStringHas('page', '2');
+$page->assertQueryStringMissing('page');
+$page->assertFragmentIs('section-2');
+```
+
+### JavaScript & Console Assertions
+
+```php
+$page->assertScript('document.title', 'Home Page');
+$page->assertScript('document.querySelector(".btn").disabled', true);
+$page->assertNoSmoke();  // No console errors or logs
+$page->assertNoConsoleLogs();
+$page->assertNoJavaScriptErrors();
+```
+
+### Accessibility Testing
+
+```php
+$page->assertNoAccessibilityIssues();
+// Levels: 0 (critical), 1 (serious), 2 (moderate), 3 (minor)
+```
+
+### Screenshots
+
+```php
+$page->screenshot();
+$page->screenshot(fullPage: true);
+$page->screenshot(filename: 'custom-name');
+$page->screenshotElement('#my-element');
+$page->assertScreenshotMatches();
+$page->assertScreenshotMatches(fullPage: true, updateSnapshot: true);
+```
+
+### IFrame Interaction
+
+```php
+use Pest\Browser\Api\PendingAwaitablePage;
+
+$page->withinIframe('.iframe-container', function (PendingAwaitablePage $page) {
+    $page->type('frame-input', 'Hello')
+        ->click('frame-button');
+});
+```
+
+### Debugging
+
+```php
+$page->debug();           // Pauses and opens browser
+$page->tinker();          // Opens Tinker session
+$page->waitForKey();      // Waits for key press
+
+// CLI options
+./vendor/bin/pest --debug
+./vendor/bin/pest --headed
+```
+
+### Running Browser Tests
+
+```bash
+./vendor/bin/pest
+./vendor/bin/pest --parallel
+./vendor/bin/pest --debug
+./vendor/bin/pest --headed
+./vendor/bin/pest --browser firefox
+```
+
+### CI/CD Integration (GitHub Actions)
+
+```yaml
+- uses: actions/setup-node@v4
+  with:
+    node-version: lts/*
+- run: npm ci
+- run: npx playwright install --with-deps
 ```
 
 ## Database Testing
