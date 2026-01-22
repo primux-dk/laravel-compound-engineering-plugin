@@ -63,6 +63,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Repo research (Step 1) always runs first (fast, local)
   - External research (Step 1.5b) is now conditional
 
+- `/workflows:review` and `git-worktree` skill - Clearer branch detection wording ([PR #104](https://github.com/EveryInc/compound-engineering-plugin/pull/104))
+  - Changed "PR branch" to "target branch (PR branch or requested branch)"
+  - Clarifies behavior when reviewing specific branches vs PRs
+
 - Research agents - Mandatory API deprecation validation ([PR #102](https://github.com/EveryInc/compound-engineering-plugin/pull/102))
   - `framework-docs-researcher` - Added step 2: MANDATORY Deprecation Check
   - `best-practices-researcher` - Added Phase 1.5: MANDATORY Deprecation Check

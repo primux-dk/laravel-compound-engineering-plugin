@@ -38,7 +38,7 @@ git worktree add .worktrees/feature-name -b feature-name main
 
 Use this skill in these scenarios:
 
-1. **Code Review (`/workflows:review`)**: If NOT already on the PR branch, offer worktree for isolated review
+1. **Code Review (`/workflows:review`)**: If NOT already on the target branch (PR branch or requested branch), offer worktree for isolated review
 2. **Feature Work (`/workflows:work`)**: Always ask if user wants parallel worktree or live branch work
 3. **Parallel Development**: When working on multiple features simultaneously
 4. **Cleanup**: After completing work in a worktree
@@ -210,8 +210,8 @@ Instead of always creating a worktree:
 
 ```
 1. Check current branch
-2. If ALREADY on PR branch → stay there, no worktree needed
-3. If DIFFERENT branch → offer worktree:
+2. If ALREADY on target branch (PR branch or requested branch) → stay there, no worktree needed
+3. If DIFFERENT branch than the review target → offer worktree:
    "Use worktree for isolated review? (y/n)"
    - yes → call git-worktree skill
    - no → proceed with PR diff on current branch
