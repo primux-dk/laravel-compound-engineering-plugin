@@ -5,6 +5,23 @@ All notable changes to the compound-engineering plugin will be documented in thi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.2] - 2026-01-22
+
+### Changed
+
+- **Standardized filename conventions** for plans and brainstorms ([PR #105](https://github.com/EveryInc/compound-engineering-plugin/pull/105))
+  - Plans: `docs/plans/YYYY-MM-DD-<type>-<name>-plan.md` (added date prefix and `-plan` suffix)
+  - Brainstorms: `docs/brainstorms/YYYY-MM-DD-<topic>-brainstorm.md` (added `-brainstorm` suffix)
+  - Added YAML frontmatter (title, type, date) to all plan templates
+  - Updated `/deepen-plan` to use new paths and deepened file naming
+  - Updated brainstorming skill with output location
+
+### Summary
+
+- 24 agents, 25 commands, 16 skills, 1 MCP server
+
+---
+
 ## [1.3.1] - 2026-01-22
 
 ### Added

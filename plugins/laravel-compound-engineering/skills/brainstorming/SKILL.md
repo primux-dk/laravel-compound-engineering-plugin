@@ -160,6 +160,8 @@ Brainstorm documents follow this structure:
 - [ ] [Remaining uncertainties]
 ```
 
+**Output Location:** `docs/brainstorms/YYYY-MM-DD-<topic>-brainstorm.md`
+
 ## Integration with Planning
 
 Brainstorming answers **WHAT** → Planning answers **HOW**

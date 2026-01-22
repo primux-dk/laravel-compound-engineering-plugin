@@ -102,10 +102,11 @@ Use **AskUserQuestion** to let user select or refine approaches.
 
 Document decisions in `docs/brainstorms/`:
 
-**Filename:** `docs/brainstorms/YYYY-MM-DD-<topic>.md`
+**Filename:** `docs/brainstorms/YYYY-MM-DD-<topic>-brainstorm.md`
 - Use today's date
 - Topic in kebab-case (3-5 words)
-- Example: `docs/brainstorms/2026-01-21-user-notification-preferences.md`
+- Add `-brainstorm` suffix for self-documenting filenames
+- Example: `docs/brainstorms/2026-01-21-user-notification-preferences-brainstorm.md`
 
 **Template:**
 
@@ -158,7 +159,7 @@ Document decisions in `docs/brainstorms/`:
 
 After saving the brainstorm, use **AskUserQuestion**:
 
-**Question:** "Brainstorm saved to `docs/brainstorms/<filename>.md`. What's next?"
+**Question:** "Brainstorm saved to `docs/brainstorms/<filename>-brainstorm.md`. What's next?"
 
 **Options:**
 1. **Start planning** - Run `/workflows:plan` with this context
