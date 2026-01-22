@@ -4,3 +4,7 @@ node_modules/
 
 # Local Claude settings (user-specific)
 .claude/settings.local.json
+
+# OpenCode/Codex output directories
+.opencode/
+.codex/

@@ -5,6 +5,26 @@ All notable changes to the compound-engineering plugin will be documented in thi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.1] - 2026-01-22
+
+### Added
+
+- **OpenCode/Codex CLI Tooling** - Convert Claude Code plugins to other AI assistant formats
+  - `laravel-compound-plugin convert` - Convert plugins to OpenCode or Codex format
+  - `laravel-compound-plugin install` - Install and convert in one step
+  - `laravel-compound-plugin list` - List available plugins
+  - Supports OpenCode (opencode.json, agents/, plugins/, skills/)
+  - Supports OpenAI Codex (~/.codex/, prompts/, skills/, config.toml, AGENTS.md)
+  - Full test suite with fixtures
+  - Based on [PR #104](https://github.com/EveryInc/compound-engineering-plugin/pull/104)
+
+### Summary
+
+- 24 agents, 25 commands, 16 skills, 1 MCP server
+- CLI tooling for multi-assistant support
+
+---
+
 ## [1.3.0] - 2026-01-21
 
 ### Added
