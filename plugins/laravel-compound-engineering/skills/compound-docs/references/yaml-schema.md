@@ -4,7 +4,7 @@
 
 ## Required Fields
 
-- **module** (string): Module name (e.g., "EmailProcessing") or "CORA" for system-wide issues
+- **module** (string): Module name (e.g., "EmailProcessing") or "System" for system-wide issues
 - **date** (string): ISO 8601 date (YYYY-MM-DD)
 - **problem_type** (enum): One of [build_error, test_failure, runtime_error, performance_issue, database_issue, security_issue, ui_bug, integration_issue, logic_error, developer_experience, workflow_issue, best_practice, documentation_gap]
 - **component** (enum): One of [eloquent_model, laravel_controller, blade_view, service_object, background_job, database, alpine_js, livewire, email_processing, brief_system, assistant, authentication, payments, development_workflow, testing_framework, documentation, tooling]
